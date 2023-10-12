@@ -1,20 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Homies.Data.Models
 {
     public class EventParticipant
     {
-        [ForeignKey(nameof(Helper))]
-        public Guid HelperId { get; set; }
+        public string HelperId { get; set; } = null!;
 
-        [Required]
-        public virtual ApplicationUser Helper { get; set; } = null!;
+        [ForeignKey(nameof(HelperId))]
+        public virtual IdentityUser Helper { get; set; } = null!;
 
-        [ForeignKey(nameof(Event))]
-        public Guid EventId { get; set; }
+        public Guid EventId { get; set; } 
 
-        [Required]
+        [ForeignKey(nameof(EventId))]
         public virtual Event Event { get; set; } = null!;
     }
 }

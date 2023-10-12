@@ -4,6 +4,7 @@ using Homies.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Homies.Data.Migrations
 {
     [DbContext(typeof(HomiesDbContext))]
-    partial class HomiesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231012114102_addedEventsSeeder")]
+    partial class addedEventsSeeder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,69 @@ namespace Homies.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Homies.Data.Models.ApplicationUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationUser");
+                });
 
             modelBuilder.Entity("Homies.Data.Models.Category", b =>
                 {
@@ -38,28 +103,6 @@ namespace Homies.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Animals"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Fun"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Discussion"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Work"
-                        });
                 });
 
             modelBuilder.Entity("Homies.Data.Models.Event", b =>
@@ -89,9 +132,8 @@ namespace Homies.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("OrganiserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("OrganiserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
@@ -103,36 +145,12 @@ namespace Homies.Data.Migrations
                     b.HasIndex("OrganiserId");
 
                     b.ToTable("Events");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("adedd079-eb04-4617-9cd4-1a1573b275ea"),
-                            CategoryId = 4,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Bring together gardeners of all ages from your community to organize a garden or local green space cleanup! ",
-                            End = new DateTime(2023, 6, 11, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Garden Cleaning",
-                            OrganiserId = "de4034a1-7c83-4272-b3cc-fb7e58a7ac8a",
-                            Start = new DateTime(2023, 6, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("d9e905c5-8b0b-43ea-b7d8-2685d0e62417"),
-                            CategoryId = 1,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "We know that the best things in life are furry. That’s why A Doggy Day Out has been making tails wag since 2016. ",
-                            End = new DateTime(2023, 6, 11, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Fun Dog Day",
-                            OrganiserId = "de4034a1-7c83-4272-b3cc-fb7e58a7ac8a",
-                            Start = new DateTime(2023, 6, 11, 10, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Homies.Data.Models.EventParticipant", b =>
                 {
-                    b.Property<string>("HelperId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("HelperId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
@@ -141,7 +159,7 @@ namespace Homies.Data.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("EventParticipants");
+                    b.ToTable("EventsParticipants");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -351,13 +369,13 @@ namespace Homies.Data.Migrations
                     b.HasOne("Homies.Data.Models.Category", "Category")
                         .WithMany("Events")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Organiser")
-                        .WithMany()
+                    b.HasOne("Homies.Data.Models.ApplicationUser", "Organiser")
+                        .WithMany("Events")
                         .HasForeignKey("OrganiserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -370,10 +388,10 @@ namespace Homies.Data.Migrations
                     b.HasOne("Homies.Data.Models.Event", "Event")
                         .WithMany("EventsParticipants")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Helper")
+                    b.HasOne("Homies.Data.Models.ApplicationUser", "Helper")
                         .WithMany()
                         .HasForeignKey("HelperId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -433,6 +451,11 @@ namespace Homies.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Homies.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("Homies.Data.Models.Category", b =>
