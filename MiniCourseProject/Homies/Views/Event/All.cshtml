@@ -1,8 +1,10 @@
-﻿@{
+﻿@using Homies.Data.Models
+@model IEnumerable<AllEventViewModel>
+@{
     ViewBag.Title = "All of the Events Around You";
 }
 
-@*
+
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
@@ -17,16 +19,17 @@
             </div>
 
             <a asp-controller="Event" asp-action="Details" asp-route-id="@e.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">View Details</a>
-            @if (User.Identity.Name == e.Organiser)
+            
+           @* @if (User.Identity.Name == e.Organiser.Email)
             {
                 <a asp-controller="Event" asp-action="Edit" asp-route-id="@e.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold">Edit</a>
-            }
-            else
+            }*@
+            @*else
             {
                 <form class="input-group-sm " asp-controller="Event" asp-action="Join" asp-route-id="@e.Id">
                     <input type="submit" value="Join the Event" class="fs-6 btn btn-warning mb-3 w-100 p-3 fw-bold" />
                 </form>
-            }
+            }*@
         </div>
     }
 </div>
@@ -34,4 +37,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-*@

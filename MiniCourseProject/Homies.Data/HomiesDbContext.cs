@@ -83,6 +83,11 @@ namespace Homies.Data
                 .HasForeignKey(e => e.OrganiserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder
+                .Entity<Event>()
+                .Property(h => h.IsActive)
+                .HasDefaultValue(true);
+
             base.OnModelCreating(builder);
         }
         public DbSet<Event> Events { get; set; } = null!;

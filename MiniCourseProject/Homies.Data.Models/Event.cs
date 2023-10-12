@@ -43,7 +43,8 @@ namespace Homies.Data.Models
         [ForeignKey(nameof(CategoryId))]
         public virtual Category Category { get; set; }
 
-        public virtual ICollection<EventParticipant> EventsParticipants { get; set; } = new HashSet<EventParticipant>();
+        public bool IsActive { get; set; }
 
+        public virtual ICollection<EventParticipant> EventsParticipants { get; set; } = new HashSet<EventParticipant>();
     }
 }
