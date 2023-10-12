@@ -12,6 +12,16 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<HomiesDbContext>();
+builder.Services.Configure<IdentityOptions>(options =>
+{
+   options.SignIn.RequireConfirmedAccount =
+        builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
