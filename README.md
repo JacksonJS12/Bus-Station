@@ -1,2 +1,2 @@
-# Bus-Station
+# Homies
 ASP.NET mini course project
