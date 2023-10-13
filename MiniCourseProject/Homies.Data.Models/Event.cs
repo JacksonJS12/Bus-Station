@@ -19,9 +19,10 @@ namespace Homies.Data.Models
         [StringLength(20)]
         public string Name { get; set; } = null!;
 
-        [StringLength(150)]
+        [StringLength(150, MinimumLength = 10)]
         public string Description { get; set; } = null!;
 
+        [Required]
         public string OrganiserId { get; set; } = null!;
 
         [Required]
@@ -37,6 +38,7 @@ namespace Homies.Data.Models
         [Required]
         public DateTime End { get; set; }
 
+        [Required]
         public int CategoryId { get; set; }
 
         [Required]

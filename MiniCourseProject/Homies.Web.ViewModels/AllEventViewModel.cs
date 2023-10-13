@@ -10,7 +10,7 @@ namespace Homies.Web.ViewModels
 
         public string Name { get; set; } = null!;
 
-        public string Start { get; set; } = null!;
+        public DateTime Start { get; set; }
 
         public string Category { get; set; } = null!;
         public string OrganiserId { get; set; } = null!;

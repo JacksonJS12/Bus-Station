@@ -8,6 +8,11 @@ namespace Homies.Web.Controllers
     {
         public IActionResult Index()
         {
+            //if (User?.Identity?.IsAuthenticated ?? false)
+            //{
+            //    return RedirectToAction("All", "Event");
+            //}
+
             return View();
         }
 

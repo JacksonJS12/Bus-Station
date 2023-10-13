@@ -62,7 +62,7 @@ namespace Homies.Data
                         "Bring together gardeners of all ages from your community to organize a garden or local green space cleanup! ",
                         Start = DateTime.Parse("2023-06-01 9:00"),
                         End = DateTime.Parse("2023-06-11 11:00"),
-                        OrganiserId = ("de4034a1-7c83-4272-b3cc-fb7e58a7ac8a"),
+                        OrganiserId = "de4034a1-7c83-4272-b3cc-fb7e58a7ac8a",
                         CategoryId = 4
                     },
                     new Event()
@@ -73,9 +73,20 @@ namespace Homies.Data
                               " That’s why A Doggy Day Out has been making tails wag since 2016. ",
                         Start = DateTime.Parse("2023-06-11 10:00"),
                         End = DateTime.Parse("2023-06-11 12:00"),
-                        OrganiserId = ("de4034a1-7c83-4272-b3cc-fb7e58a7ac8a"),
+                        OrganiserId = "de4034a1-7c83-4272-b3cc-fb7e58a7ac8a",
                         CategoryId = 1
                     });
+
+            //builder
+            //    .Entity<Organiser>()
+            //    .HasData(new Organiser()
+            //    {
+            //        Id = Guid.Parse("c7bbace2-1da5-4bda-a827-9005db369b5e"),
+            //        Name = "Sean",
+            //        PhoneNumber = "0893457771",
+            //        UserId = "de4034a1-7c83-4272-b3cc-fb7e58a7ac8a",
+            //    });
+
             builder
                 .Entity<Event>()
                 .HasOne(e => e.Organiser)
@@ -92,6 +103,7 @@ namespace Homies.Data
         }
         public DbSet<Event> Events { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
+       // public DbSet<Organiser> Organisers { get; set; } = null!;
         public DbSet<EventParticipant> EventParticipants { get; set; } = null!;
     }
 }

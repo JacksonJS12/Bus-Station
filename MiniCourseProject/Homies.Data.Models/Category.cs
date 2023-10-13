@@ -8,7 +8,7 @@ namespace Homies.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [MaxLength(15)]
         public string Name { get; set; } = null!;
 
         public virtual ICollection<Event> Events { get; set; } = new HashSet<Event>();

@@ -23,7 +23,9 @@ namespace Homies.Services.Data
                 {
                     Id = e.Id,
                     Name = e.Name,
-                    Start = e.Start.ToString(),
+                    Start = e.Start,
+                    OrganiserId = e.OrganiserId,
+                    Organiser = e.Organiser,
                     Category = e.Category.Name,
 
                 }).ToArrayAsync();
@@ -54,7 +56,7 @@ namespace Homies.Services.Data
                 Id = eEvent.Id,
                 Name = eEvent.Name,
                 Description = eEvent.Description,
-                Start = eEvent.Start.ToString(),
+                Start = eEvent.Start,
                 End = eEvent.End.ToString(),
                 Organiser = eEvent.Organiser.UserName,
                 CreatedOn = eEvent.CreatedOn.ToString(),
