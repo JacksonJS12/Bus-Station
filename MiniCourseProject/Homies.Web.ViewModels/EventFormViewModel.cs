@@ -11,11 +11,11 @@ namespace Homies.Web.ViewModels
         public Guid Id { get; set; } 
 
         [Required]
-        [StringLength(20)]
+        [StringLength(20, MinimumLength = 10)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(150)]
+        [StringLength(150, MinimumLength = 50)]
         public string Description { get; set; } = null!;
 
         [Required]
@@ -26,5 +26,6 @@ namespace Homies.Web.ViewModels
 
         [Required]
         public string Category { get; set; } = null!;
+        public string CategoryId { get; set; } = null!;
     }
 }

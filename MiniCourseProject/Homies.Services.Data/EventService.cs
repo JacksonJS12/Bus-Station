@@ -2,6 +2,7 @@
 using Homies.Data.Models;
 using Homies.Services.Data.Interfaces;
 using Homies.Web.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Homies.Services.Data
@@ -80,6 +81,70 @@ namespace Homies.Services.Data
                 End = eEvent.End,
                 Category = eEvent.Category.Name
             };
+        }
+
+        public async Task<IEnumerable<AllEventViewModel>> GetJoinedEventsAsync(string userId)
+        {
+            return await dbContext
+                .EventParticipants
+                .Where(ep => ep.HelperId == userId)
+                .Select(e => new AllEventViewModel
+                {
+                    Id = e.Event.Id,
+                    Name = e.Event.Name,
+                    Start = e.Event.Start.ToString("dd/MM/yyyy HH:mm tt"),
+                    Category = e.Event.Category.Name,
+                    OrganiserId = e.Event.OrganiserId,
+                    Organiser = e.Event.Organiser
+                }).ToListAsync();
+        }
+
+        public async Task JoinEventAsync(string userId, EventFormViewModel eEvent)
+        {
+            bool alderyAdded = await dbContext
+                .EventParticipants
+                .AnyAsync(ep => ep.HelperId == userId && ep.EventId == eEvent.Id);
+
+            if (!alderyAdded)
+            {
+                EventParticipant eventParticipant = new EventParticipant()
+                {
+                    EventId = eEvent.Id,
+                    HelperId = userId
+                };
+
+                await dbContext.EventParticipants.AddAsync(eventParticipant);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<EventFormViewModel> GetEventByIdAsync(string eventId)
+        {
+           
+            return await dbContext
+                .Events
+                .Where(e => e.Id == Guid.Parse(eventId))
+                .Select(e => new EventFormViewModel 
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Description = e.Description,
+                Start = e.Start,
+                End = e.End,
+                Category = e.Category.Name
+            }).FirstOrDefaultAsync();
+        }
+
+        public async Task LeaveEventAsync(string userId, EventFormViewModel eevent)
+        {
+            var eventParticipant = await dbContext.EventParticipants
+                .FirstOrDefaultAsync(ep => ep.HelperId == userId && ep.EventId == eevent.Id);
+
+            if (eventParticipant != null)
+            {
+                dbContext.EventParticipants.Remove(eventParticipant);
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }

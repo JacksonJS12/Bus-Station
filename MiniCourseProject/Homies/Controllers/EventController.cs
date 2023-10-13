@@ -1,4 +1,5 @@
-﻿using Homies.Services.Data;
+﻿using Homies.Data.Models;
+using Homies.Services.Data;
 using Homies.Services.Data.Interfaces;
 using Homies.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -24,10 +25,10 @@ namespace Homies.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string eventId)
         {
             bool eventExists = await eventService
-                .ExistsByIdAsync(id);
+                .ExistsByIdAsync(eventId);
             if (!eventExists!)
             {
                 return this.NotFound();
@@ -36,7 +37,7 @@ namespace Homies.Web.Controllers
             try
             {
                 EventDetailsViewModel viewModel = await eventService
-                    .GetDetailsByIdAsync(id);
+                    .GetDetailsByIdAsync(eventId);
 
                 return View(viewModel);
             }
@@ -48,10 +49,10 @@ namespace Homies.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string eventId)
         {
             //    bool houseExists = await eventService
-            //        .ExistsByIdAsync(id);
+            //        .ExistsByIdAsync(eventId);
             //    if (!houseExists)
             //    {
             return RedirectToAction("All", "Event");
@@ -62,7 +63,7 @@ namespace Homies.Web.Controllers
             //    try
             //    {
             //        EventFormViewModel formModel = await eventService
-            //            .GetEventForEditByIdAsync(id);
+            //            .GetEventForEditByIdAsync(eventId);
 
             //        return View(formModel);
             //    }
@@ -73,9 +74,45 @@ namespace Homies.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Join(string id)
+        public async Task<IActionResult> Join(string eventId)
         {
-            return RedirectToAction("All", "Event");
+            var eEvent = await eventService.GetEventByIdAsync(eventId);
+            if (eEvent == null)
+            {
+                return View("Error");
+            }
+
+            var userId = GetUserId();
+
+            await eventService.JoinEventAsync(userId, eEvent);
+
+            return RedirectToAction("Joined", "Event");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Joined()
+        {
+            var userId = GetUserId();
+            var model = await this.eventService.GetJoinedEventsAsync(userId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Leave(string eventId)
+        {
+            var eevent = await eventService.GetEventByIdAsync(eventId);
+
+            if (eevent == null)
+            {
+                return RedirectToAction("Joined", "Event");
+            }
+
+            var userId = GetUserId();
+
+            await eventService.LeaveEventAsync(userId, eevent);
+
+            return RedirectToAction("Joined", "Event");
         }
     }
 }
