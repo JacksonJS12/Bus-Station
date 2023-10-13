@@ -23,7 +23,7 @@ namespace Homies.Services.Data
                 {
                     Id = e.Id,
                     Name = e.Name,
-                    Start = e.Start,
+                    Start = e.Start.ToString("dd/MM/yyyy HH:mm tt"),
                     OrganiserId = e.OrganiserId,
                     Organiser = e.Organiser,
                     Category = e.Category.Name,
@@ -45,9 +45,8 @@ namespace Homies.Services.Data
         {
             Event eEvent = await dbContext
                 .Events
-                .Include(e => e.Category)
                 .Include(e => e.Organiser)
-                .ThenInclude(o => o.UserName)
+                .Include(e => e.Category)
                 .Where(e => e.IsActive)
                 .FirstAsync(e => e.Id.ToString() == eventId);
 
@@ -56,10 +55,10 @@ namespace Homies.Services.Data
                 Id = eEvent.Id,
                 Name = eEvent.Name,
                 Description = eEvent.Description,
-                Start = eEvent.Start,
-                End = eEvent.End.ToString(),
+                Start = eEvent.Start.ToString("dd/MM/yyyy HH:mm tt"),
+                End = eEvent.End.ToString("dd/MM/yyyy HH:mm tt"),
                 Organiser = eEvent.Organiser.UserName,
-                CreatedOn = eEvent.CreatedOn.ToString(),
+                CreatedOn = eEvent.CreatedOn.ToString("dd/MM/yyyy HH:mm tt"),
                 Category = eEvent.Category.Name
             };
         }

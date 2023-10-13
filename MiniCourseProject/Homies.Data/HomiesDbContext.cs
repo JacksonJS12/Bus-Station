@@ -77,16 +77,6 @@ namespace Homies.Data
                         CategoryId = 1
                     });
 
-            //builder
-            //    .Entity<Organiser>()
-            //    .HasData(new Organiser()
-            //    {
-            //        Id = Guid.Parse("c7bbace2-1da5-4bda-a827-9005db369b5e"),
-            //        Name = "Sean",
-            //        PhoneNumber = "0893457771",
-            //        UserId = "de4034a1-7c83-4272-b3cc-fb7e58a7ac8a",
-            //    });
-
             builder
                 .Entity<Event>()
                 .HasOne(e => e.Organiser)
@@ -103,7 +93,6 @@ namespace Homies.Data
         }
         public DbSet<Event> Events { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
-       // public DbSet<Organiser> Organisers { get; set; } = null!;
         public DbSet<EventParticipant> EventParticipants { get; set; } = null!;
     }
 }

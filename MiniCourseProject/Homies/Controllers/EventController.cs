@@ -26,24 +26,25 @@ namespace Homies.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Details(string id)
         {
-            //bool eventExists = await eventService
-            //    .ExistsByIdAsync(id);
-            //if (!eventExists!)
-            //{
-            return RedirectToAction("All", "Event");
-            //}
+            bool eventExists = await eventService
+                .ExistsByIdAsync(id);
+            if (!eventExists!)
+            {
+                return this.NotFound();
+            }
 
-            //try
-            //{
-            //    EventDetailsViewModel viewModel = await eventService
-            //        .GetDetailsByIdAsync(id);
+            try
+            {
+                EventDetailsViewModel viewModel = await eventService
+                    .GetDetailsByIdAsync(id);
 
-            //    return View(viewModel);
-            //}
-            //catch (Exception)
-            //{
-            //    return View("Error");
-            //}
+                return View(viewModel);
+            }
+            catch (Exception)
+            {
+                return this.NotFound();
+            }
+
         }
 
         [HttpGet]
