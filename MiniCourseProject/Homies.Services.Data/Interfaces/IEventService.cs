@@ -1,8 +1,7 @@
-﻿using Homies.Web.ViewModels;
-using Microsoft.AspNetCore.Identity;
-
-namespace Homies.Services.Data.Interfaces
+﻿namespace Homies.Services.Data.Interfaces
 {
+    using Web.ViewModels;
+
     public interface IEventService
     {
         Task<IEnumerable<AllEventViewModel>> GetAllEventsAsync();

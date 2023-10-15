@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Security.AccessControl;
-
-namespace Homies.Data.Models
+﻿namespace Homies.Data.Models
 {
+    using System;
+    using Microsoft.AspNetCore.Identity;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using static Common.EntityValidation.Event;
+
     public class Event
     {
         public Event()
@@ -16,10 +17,10 @@ namespace Homies.Data.Models
         public Guid Id { get; set; } 
 
         [Required]
-        [StringLength(20)]
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; } = null!;
 
-        [StringLength(150, MinimumLength = 10)]
+        [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
         public string Description { get; set; } = null!;
 
         [Required]

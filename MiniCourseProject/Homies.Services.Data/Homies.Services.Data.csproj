@@ -10,7 +10,6 @@
     <ProjectReference Include="..\Homies.Common\Homies.Common.csproj" />
     <ProjectReference Include="..\Homies.Data.Models\Homies.Data.Models.csproj" />
     <ProjectReference Include="..\Homies.Data\Homies.Data.csproj" />
-    <ProjectReference Include="..\Homies.Services.Data.Models\Homies.Services.Data.Models.csproj" />
     <ProjectReference Include="..\Homies.Web.ViewModels\Homies.Web.ViewModels.csproj" />
   </ItemGroup>
 

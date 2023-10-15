@@ -1,12 +1,12 @@
-﻿using Homies.Data;
-using Homies.Data.Models;
-using Homies.Services.Data.Interfaces;
-using Homies.Web.ViewModels;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-namespace Homies.Services.Data
+﻿namespace Homies.Services.Data
 {
+    using Interfaces;
+    using Homies.Data;
+    using Web.ViewModels;
+    using Homies.Data.Models;
+
+    using Microsoft.EntityFrameworkCore;
+
     public class EventService : IEventService
     {
         private readonly HomiesDbContext dbContext;
@@ -24,7 +24,7 @@ namespace Homies.Services.Data
                 {
                     Id = e.Id.ToString(),
                     Name = e.Name,
-                    Start = e.Start.ToString("dd/MM/yyyy HH:mm tt"),
+                    Start = e.Start.ToString("dd/MM/yyyy HH:mm"),
                     OrganiserId = e.OrganiserId,
                     Organiser = e.Organiser,
                     Category = e.Category.Name,
@@ -56,10 +56,10 @@ namespace Homies.Services.Data
                 Id = eEvent.Id.ToString(),
                 Name = eEvent.Name,
                 Description = eEvent.Description,
-                Start = eEvent.Start.ToString("dd/MM/yyyy HH:mm tt"),
-                End = eEvent.End.ToString("dd/MM/yyyy HH:mm tt"),
+                Start = eEvent.Start.ToString("dd/MM/yyyy HH:mm"),
+                End = eEvent.End.ToString("dd/MM/yyyy HH:mm"),
                 Organiser = eEvent.Organiser.UserName,
-                CreatedOn = eEvent.CreatedOn.ToString("dd/MM/yyyy HH:mm tt"),
+                CreatedOn = eEvent.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
                 Category = eEvent.Category.Name
             };
         }
@@ -96,7 +96,7 @@ namespace Homies.Services.Data
                 {
                     Id = e.Event.Id.ToString(),
                     Name = e.Event.Name,
-                    Start = e.Event.Start.ToString("dd/MM/yyyy HH:mm tt"),
+                    Start = e.Event.Start.ToString("dd/MM/yyyy HH:mm"),
                     Category = e.Event.Category.Name,
                     OrganiserId = e.Event.OrganiserId,
                     Organiser = e.Event.Organiser
