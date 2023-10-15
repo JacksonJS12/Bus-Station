@@ -1,4 +1,5 @@
-﻿using Homies.Data.Models;
+﻿using System.Diagnostics;
+using Homies.Data.Models;
 using Homies.Services.Data;
 using Homies.Services.Data.Interfaces;
 using Homies.Web.ViewModels;
@@ -25,11 +26,11 @@ namespace Homies.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Details(string eventId)
+        public async Task<IActionResult> Details(string id)
         {
             bool eventExists = await eventService
-                .ExistsByIdAsync(eventId);
-            if (!eventExists!)
+                .ExistsByIdAsync(id);
+            if (!eventExists)
             {
                 return this.NotFound();
             }
@@ -37,40 +38,15 @@ namespace Homies.Web.Controllers
             try
             {
                 EventDetailsViewModel viewModel = await eventService
-                    .GetDetailsByIdAsync(eventId);
+                    .GetDetailsByIdAsync(id);
 
                 return View(viewModel);
             }
             catch (Exception)
             {
-                return this.NotFound();
+                return NotFound();
             }
 
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(string eventId)
-        {
-            //    bool houseExists = await eventService
-            //        .ExistsByIdAsync(eventId);
-            //    if (!houseExists)
-            //    {
-            return RedirectToAction("All", "Event");
-
-            //        return this.NotFound(); 
-            //    }
-
-            //    try
-            //    {
-            //        EventFormViewModel formModel = await eventService
-            //            .GetEventForEditByIdAsync(eventId);
-
-            //        return View(formModel);
-            //    }
-            //    catch (Exception)
-            //    {
-            //        return View("Error");
-            //    }
         }
 
         [HttpPost]
@@ -84,7 +60,9 @@ namespace Homies.Web.Controllers
 
             var userId = GetUserId();
 
+
             await eventService.JoinEventAsync(userId, eEvent);
+
 
             return RedirectToAction("Joined", "Event");
         }
@@ -99,9 +77,9 @@ namespace Homies.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Leave(string eventId)
+        public async Task<IActionResult> Leave(string id)
         {
-            var eevent = await eventService.GetEventByIdAsync(eventId);
+            var eevent = await eventService.GetEventByIdAsync(id);
 
             if (eevent == null)
             {
@@ -113,6 +91,55 @@ namespace Homies.Web.Controllers
             await eventService.LeaveEventAsync(userId, eevent);
 
             return RedirectToAction("Joined", "Event");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            AddEventViewModel model = await eventService.GetNewAddEventViewModelAsync();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddEventViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            string userId = GetUserId();
+
+            await eventService.AddEventAsync(model, userId);
+
+            return RedirectToAction("All", "Event");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            AddEventViewModel eevent = await eventService.GetEventForEditByIdAsync(id);
+
+            if (eevent == null)
+            {
+                return RedirectToAction("All", "Event");
+            }
+
+            return View(eevent);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, AddEventViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            string userId = GetUserId();
+
+            await eventService.EditEventAsync(model, userId);
+
+            return RedirectToAction("All", "Event");
         }
     }
 }

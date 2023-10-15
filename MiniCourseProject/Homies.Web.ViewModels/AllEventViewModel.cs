@@ -6,7 +6,7 @@ namespace Homies.Web.ViewModels
 {
     public class AllEventViewModel
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; } = null!;
 
@@ -15,8 +15,6 @@ namespace Homies.Web.ViewModels
         public string Category { get; set; } = null!;
         public string OrganiserId { get; set; } = null!;
 
-        [Required]
-        [ForeignKey(nameof(OrganiserId))]
         public virtual IdentityUser Organiser { get; set; } = null!;
     }
 }

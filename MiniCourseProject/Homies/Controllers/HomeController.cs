@@ -8,18 +8,23 @@ namespace Homies.Web.Controllers
     {
         public IActionResult Index()
         {
-            //if (User?.Identity?.IsAuthenticated ?? false)
-            //{
-            //    return RedirectToAction("All", "Event");
-            //}
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("All", "Event");
+            }
 
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int statusCode)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (statusCode == 404)
+            {
+                return View("Error404");
+            }
+
+            return View();
         }
     }
 }

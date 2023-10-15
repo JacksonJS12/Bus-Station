@@ -9,8 +9,7 @@ namespace Homies.Web.ViewModels
     {
         public string End { get; set; } = null!;
 
-        public string Description
-        { get; set; } = null!;
+        public string Description { get; set; } = null!;
 
         public string Organiser { get; set; } = null!;
 
