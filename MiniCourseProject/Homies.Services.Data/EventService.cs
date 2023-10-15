@@ -122,7 +122,7 @@ namespace Homies.Services.Data
             }
         }
 
-        public async Task<EventFormViewModel> GetEventByIdAsync(string eventId)
+        public async Task<EventFormViewModel>? GetEventByIdAsync(string eventId)
         {
 
             return await dbContext
@@ -185,21 +185,25 @@ namespace Homies.Services.Data
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task EditEventAsync(AddEventViewModel model, string userId)
+        public async Task EditEventAsync(AddEventViewModel model, string eventId)
         {
-            Event? eevent = await dbContext.Events.FindAsync(Guid.Parse(userId));
+            Event? eevent = await dbContext
+                .Events
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == eventId);
             Category? category = await dbContext.Categories.FindAsync(model.CategoryId);
 
-            if (eevent != null)
-            {
-                eevent.Name = model.Name;
-                eevent.Description = model.Description;
-                eevent.Start = model.Start;
-                eevent.End = model.End;
-                eevent.Category = category;
+            eevent.Name = model.Name;
+            eevent.Description = model.Description;
+            eevent.Start = model.Start;
+            eevent.End = model.End;
+            eevent.CategoryId = model.CategoryId;
+            //eevent.Category = category;
 
-                await dbContext.SaveChangesAsync();
-            }
+
+
+            await dbContext.SaveChangesAsync();
+
 
         }
     }

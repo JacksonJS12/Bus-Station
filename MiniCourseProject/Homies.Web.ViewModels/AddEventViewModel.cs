@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Homies.Data.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Homies.Web.ViewModels
 {

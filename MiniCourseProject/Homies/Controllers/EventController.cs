@@ -135,9 +135,8 @@ namespace Homies.Web.Controllers
             {
                 return View(model);
             }
-            string userId = GetUserId();
 
-            await eventService.EditEventAsync(model, userId);
+            await eventService.EditEventAsync(model, id);
 
             return RedirectToAction("All", "Event");
         }
