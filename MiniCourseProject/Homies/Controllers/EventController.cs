@@ -1,13 +1,11 @@
-﻿using System.Diagnostics;
-using Homies.Data.Models;
-using Homies.Services.Data;
-using Homies.Services.Data.Interfaces;
-using Homies.Web.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Homies.Web.Controllers
+﻿namespace Homies.Web.Controllers
 {
+    using ViewModels;
+    using Homies.Services.Data.Interfaces;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     public class EventController : BaseController
     {
         private readonly IEventService eventService;
@@ -52,8 +50,8 @@ namespace Homies.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Join(string eventId)
         {
-            var eEvent = await eventService.GetEventByIdAsync(eventId);
-            if (eEvent == null)
+            var @event = await eventService.GetEventByIdAsync(eventId);
+            if (@event == null)
             {
                 return View("Error");
             }
@@ -61,7 +59,7 @@ namespace Homies.Web.Controllers
             var userId = GetUserId();
 
 
-            await eventService.JoinEventAsync(userId, eEvent);
+            await eventService.JoinEventAsync(userId, @event);
 
 
             return RedirectToAction("Joined", "Event");
@@ -79,18 +77,18 @@ namespace Homies.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Leave(string id)
         {
-            var eevent = await eventService.GetEventByIdAsync(id);
+            var @event = await eventService.GetEventByIdAsync(id);
 
-            if (eevent == null)
+            if (@event == null)
             {
                 return RedirectToAction("Joined", "Event");
             }
 
             var userId = GetUserId();
 
-            await eventService.LeaveEventAsync(userId, eevent);
+            await eventService.LeaveEventAsync(userId, @event);
 
-            return RedirectToAction("Joined", "Event");
+            return RedirectToAction("All", "Event");
         }
 
         [HttpGet]
@@ -118,14 +116,14 @@ namespace Homies.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            AddEventViewModel eevent = await eventService.GetEventForEditByIdAsync(id);
+            AddEventViewModel @event = await eventService.GetEventForEditByIdAsync(id);
 
-            if (eevent == null)
+            if (@event == null)
             {
                 return RedirectToAction("All", "Event");
             }
 
-            return View(eevent);
+            return View(@event);
         }
 
         [HttpPost]
@@ -135,9 +133,8 @@ namespace Homies.Web.Controllers
             {
                 return View(model);
             }
-            string userId = GetUserId();
 
-            await eventService.EditEventAsync(model, userId);
+            await eventService.EditEventAsync(model, id);
 
             return RedirectToAction("All", "Event");
         }

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-
-namespace Homies.Web.Controllers
+﻿namespace Homies.Web.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System.Security.Claims;
+
     public class BaseController : Controller
     {
         protected string GetUserId()

@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace Homies.Web.ViewModels
+﻿namespace Homies.Web.ViewModels
 {
+    using Microsoft.AspNetCore.Identity;
+
     public class AllEventViewModel
     {
         public string Id { get; set; }

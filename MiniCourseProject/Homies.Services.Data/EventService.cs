@@ -1,12 +1,12 @@
-﻿using Homies.Data;
-using Homies.Data.Models;
-using Homies.Services.Data.Interfaces;
-using Homies.Web.ViewModels;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-namespace Homies.Services.Data
+﻿namespace Homies.Services.Data
 {
+    using Interfaces;
+    using Homies.Data;
+    using Web.ViewModels;
+    using Homies.Data.Models;
+
+    using Microsoft.EntityFrameworkCore;
+
     public class EventService : IEventService
     {
         private readonly HomiesDbContext dbContext;
@@ -24,7 +24,7 @@ namespace Homies.Services.Data
                 {
                     Id = e.Id.ToString(),
                     Name = e.Name,
-                    Start = e.Start.ToString("dd/MM/yyyy HH:mm tt"),
+                    Start = e.Start.ToString("dd/MM/yyyy HH:mm"),
                     OrganiserId = e.OrganiserId,
                     Organiser = e.Organiser,
                     Category = e.Category.Name,
@@ -56,10 +56,10 @@ namespace Homies.Services.Data
                 Id = eEvent.Id.ToString(),
                 Name = eEvent.Name,
                 Description = eEvent.Description,
-                Start = eEvent.Start.ToString("dd/MM/yyyy HH:mm tt"),
-                End = eEvent.End.ToString("dd/MM/yyyy HH:mm tt"),
+                Start = eEvent.Start.ToString("dd/MM/yyyy HH:mm"),
+                End = eEvent.End.ToString("dd/MM/yyyy HH:mm"),
                 Organiser = eEvent.Organiser.UserName,
-                CreatedOn = eEvent.CreatedOn.ToString("dd/MM/yyyy HH:mm tt"),
+                CreatedOn = eEvent.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
                 Category = eEvent.Category.Name
             };
         }
@@ -96,7 +96,7 @@ namespace Homies.Services.Data
                 {
                     Id = e.Event.Id.ToString(),
                     Name = e.Event.Name,
-                    Start = e.Event.Start.ToString("dd/MM/yyyy HH:mm tt"),
+                    Start = e.Event.Start.ToString("dd/MM/yyyy HH:mm"),
                     Category = e.Event.Category.Name,
                     OrganiserId = e.Event.OrganiserId,
                     Organiser = e.Event.Organiser
@@ -122,7 +122,7 @@ namespace Homies.Services.Data
             }
         }
 
-        public async Task<EventFormViewModel> GetEventByIdAsync(string eventId)
+        public async Task<EventFormViewModel>? GetEventByIdAsync(string eventId)
         {
 
             return await dbContext
@@ -185,21 +185,25 @@ namespace Homies.Services.Data
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task EditEventAsync(AddEventViewModel model, string userId)
+        public async Task EditEventAsync(AddEventViewModel model, string eventId)
         {
-            Event? eevent = await dbContext.Events.FindAsync(Guid.Parse(userId));
+            Event? eevent = await dbContext
+                .Events
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == eventId);
             Category? category = await dbContext.Categories.FindAsync(model.CategoryId);
 
-            if (eevent != null)
-            {
-                eevent.Name = model.Name;
-                eevent.Description = model.Description;
-                eevent.Start = model.Start;
-                eevent.End = model.End;
-                eevent.Category = category;
+            eevent.Name = model.Name;
+            eevent.Description = model.Description;
+            eevent.Start = model.Start;
+            eevent.End = model.End;
+            eevent.CategoryId = model.CategoryId;
+            //eevent.Category = category;
 
-                await dbContext.SaveChangesAsync();
-            }
+
+
+            await dbContext.SaveChangesAsync();
+
 
         }
     }

@@ -4,7 +4,7 @@
 
 namespace Homies.Data.Migrations
 {
-    public partial class addedEventsSeeder : Migration
+    public partial class AddedEntityConfigurationInDiffrentFilesForBetterSustainability : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
