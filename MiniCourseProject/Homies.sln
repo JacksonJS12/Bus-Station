@@ -10,9 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A39A1533-F7D4-4CC8-B656-3BA01500B247}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B34AB231-095D-4468-A758-47B4E5FCC5F5}"
-	ProjectSection(SolutionItems) = preProject
-		Homies.Common\EntityValidation.cs = Homies.Common\EntityValidation.cs
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F9458D8D-35D0-4123-ADA8-3770E9BC5D88}"
 EndProject
