@@ -12,3 +12,5 @@ The point of creating this project was not to make something that is never creat
 - jQuery
 - Bootstrap
 - HTML & CSS
+##### Credit to [SoftUni](https://softuni.bg/) for the Views and the project idea
+![software-university-logo](https://user-images.githubusercontent.com/99989417/173138263-15bb5ad8-a9fe-4427-8e39-b624dd83dc4d.svg)
